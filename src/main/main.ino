@@ -2,12 +2,12 @@
 // Copyright (c) 2023 HiBit <https://www.hibit.dev>
 // -------------------------------------------------
 
-// Motors A
+// Motor A
 #define ENA 10 //PWM
 #define IN1 9
 #define IN2 8
 
-// Motors B
+// Motor B
 #define ENB 3 //PWM
 #define IN3 4
 #define IN4 5
