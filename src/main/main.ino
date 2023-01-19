@@ -3,14 +3,14 @@
 // -------------------------------------------------
 
 // Motor A
-#define ENA 10 //PWM
-#define IN1 9
-#define IN2 8
+#define ENA_PIN 10 //PWM
+#define IN1_PIN 9
+#define IN2_PIN 8
 
 // Motor B
-#define ENB 3 //PWM
-#define IN3 4
-#define IN4 5
+#define ENB_PIN 3 //PWM
+#define IN3_PIN 4
+#define IN4_PIN 5
 
 struct motor {
   byte speed = 0;
@@ -27,19 +27,18 @@ void setup()
 {
   Serial.begin(115200);
 
-  // Set speed & control pins to output for motor A
-  pinMode(ENA, OUTPUT);
-  pinMode(IN1, OUTPUT);
-  pinMode(IN2, OUTPUT);
+  // Set PWM & direction pins to output for both motor
+  pinMode(ENA_PIN, OUTPUT);
+  pinMode(IN1_PIN, OUTPUT);
+  pinMode(IN2_PIN, OUTPUT);
 
-  // Set speed & control pins to output for motor B
-  pinMode(ENB, OUTPUT);
-  pinMode(IN3, OUTPUT);
-  pinMode(IN4, OUTPUT);
+  pinMode(ENB_PIN, OUTPUT);
+  pinMode(IN3_PIN, OUTPUT);
+  pinMode(IN4_PIN, OUTPUT);
 
   // Init with default values
-  sendToMotorA(motorA);
-  sendToMotorB(motorB);
+  sendToMotorA();
+  sendToMotorB();
 }
 
 void loop()
@@ -48,8 +47,8 @@ void loop()
   Serial.println("Set direction FORWARD");
   delay(2000);
 
-  setDirectionForward(motorA);
-  setDirectionForward(motorB);
+  setMotorDirectionForward(motorA);
+  setMotorDirectionForward(motorB);
 
   Serial.println("Gradually increase motors speed to max");
 
@@ -65,8 +64,8 @@ void loop()
   Serial.println("Set direction BACKWARD");
   delay(2000);
 
-  setDirectionBackward(motorA);
-  setDirectionBackward(motorB);
+  setMotorDirectionBackward(motorA);
+  setMotorDirectionBackward(motorB);
 
   Serial.println("Gradually increase motors speed to max");
 
@@ -80,14 +79,24 @@ void loop()
 
 }
 
+void sendToMotorA()
+{
+  sendToMotor(motorA, ENA_PIN, IN1_PIN, IN2_PIN);
+}
+
+void sendToMotorB()
+{
+  sendToMotor(motorB, ENB_PIN, IN3_PIN, IN4_PIN);
+}
+
 void increaseMotorsSpeed()
 {
   for (int speed = 0; speed <= 255; speed++) {
     setMotorSpeed(motorA, speed);
     setMotorSpeed(motorB, speed);
 
-    sendToMotorA(motorA);
-    sendToMotorB(motorB);
+    sendToMotorA();
+    sendToMotorB();
 
     delay(20); // Add small delay between changes
   }
@@ -100,8 +109,8 @@ void decreaseMotorsSpeed()
     setMotorSpeed(motorA, speed);
     setMotorSpeed(motorB, speed);
 
-    sendToMotorA(motorA);
-    sendToMotorB(motorB);
+    sendToMotorA();
+    sendToMotorB();
 
     delay(20); // Add small delay between changes
   }

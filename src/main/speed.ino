@@ -4,7 +4,7 @@
 
 void setMotorSpeed(motor &motor, int speed)
 {
-  motor.speed = max(0, min(255, speed)); // Force values between 0-255 (PWM)
+  motor.speed = constrain(speed, 0, 255); // Force values between 0-255 (PWM)
 }
 
 void minMotorSpeed(motor &motor)
