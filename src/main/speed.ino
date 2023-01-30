@@ -16,3 +16,8 @@ void maxMotorSpeed(motor &motor)
 {
   setMotorSpeed(motor, 255);
 }
+
+byte getMotorSpeed(motor &motor)
+{
+  return motor.speed;
+}
